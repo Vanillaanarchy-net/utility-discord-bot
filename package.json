@@ -1,0 +1,23 @@
+{
+  "name": "utility-discord-bot",
+  "description": "Discord bot that handles everything for vanillaanarchy",
+  "license": "MIT",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node -r dotenv/config .",
+    "reg": "node -r dotenv/config . --register-commands",
+    "fmt": "pnpm prettier --cache -w **/*.{js,json,yml,yaml}",
+    "fmt.check": "pnpm prettier --cache -c **/*.{js,json,yml,yaml}"
+  },
+  "dependencies": {
+    "chalk": "^2.4.2",
+    "discord.js": "^14.14.1",
+    "dotenv": "^16.3.1",
+    "globby": "^14.0.0"
+  },
+  "devDependencies": {
+    "prettier": "^3.2.1"
+  }
+}
