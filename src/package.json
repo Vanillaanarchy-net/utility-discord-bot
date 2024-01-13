@@ -1,0 +1,16 @@
+{
+  "name": "utility-discord-bot",
+  "version": "1.0.0",
+  "description": "Discord bot that handles everything for vanillaanarchy",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "chalk": "^2.4.2",
+    "discord.js": "^14.14.1",
+    "dotenv": "^16.3.1"
+  }
+}
