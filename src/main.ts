@@ -1,13 +1,19 @@
-import "./src/utils/__dirname.js";
-import { Client } from "discord.js";
-import { loadCommands } from "./src/utils/loadCommands.js";
-import { registerCommands } from "./src/utils/registerCommands.js";
-import { createInterface } from 'readline';
-import chalk from 'chalk';
+import "./utils/__dirname.js";
 
-const log = (message, color = 'white') => {
-    console.log(chalk[color](message));
-};
+import { Client } from "discord.js";
+import { loadCommands } from "./utils/loadCommands.js";
+import { registerCommands } from "./utils/registerCommands.js";
+import { createInterface } from 'readline';
+
+import chalk, { type Chalk } from 'chalk';
+
+declare global {
+    function log(message: string, color?: string): void;
+}
+
+globalThis.log = function (message, color) {
+    console.log(new Date(), chalk[color ?? "reset"](message));
+}
 
 !async function () {
     if (process.argv.includes('--register-commands')) {
@@ -17,19 +23,19 @@ const log = (message, color = 'white') => {
 
         try {
             await client.login(process.env.TOKEN);
-            log('Bot successfully logged in.', 'green');
+            log('Bot successfully logged in.');
 
             const guild = await client.guilds.fetch(process.env.GUILD_ID);
-            log(`Fetched guild: ${guild.name}`, 'cyan');
+            log(`Fetched guild: ${guild.name}`);
 
             await registerCommands(guild);
-            log('Commands registered successfully.', 'yellow');
+            log('Commands registered successfully.');
         } catch (e) {
-            console.error(chalk.red('Error:', e));
+            log(`Error: ${e}`, 'red')
             return;
         }
 
-        log('Destroying client...', 'magenta');
+        log('Logging off...');
         return client.destroy();
     }
 
@@ -42,14 +48,14 @@ const log = (message, color = 'white') => {
     const cli = createInterface(process.stdin, process.stdout);
 
     cli.once('SIGINT', async () => {
-        log('Destroying client...', 'magenta');
+        log('Logging off...');
         await client.destroy();
 
         cli.close();
     });
 
     client.once('ready', () => {
-        log('Bot started!', 'green');
+        log('Bot started!');
     });
 
     client.on('interactionCreate', async (interaction) => {
@@ -70,6 +76,6 @@ const log = (message, color = 'white') => {
         }
     });
 
-    log('Logging in...', 'cyan');
+    log('Logging in...');
     await client.login(process.env.TOKEN);
 } ();

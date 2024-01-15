@@ -1,9 +1,8 @@
 import chalk from 'chalk';
 
-/**
- * @param {import('discord.js').Guild} guild 
- */
-export async function registerCommands(guild) {
+import type { Guild } from "discord.js";
+
+export async function registerCommands(guild: Guild) {
     try {
         const commandsData = [
             {
@@ -12,7 +11,7 @@ export async function registerCommands(guild) {
             }
         ];
 
-        await guild.commands.set(commandsData);
+        const size = await guild.commands.set(commandsData);
 
         console.log(chalk.green(`Commands registered successfully in guild: ${guild.name}`));
 

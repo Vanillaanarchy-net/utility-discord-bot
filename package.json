@@ -3,13 +3,15 @@
   "description": "Discord bot that handles everything for vanillaanarchy",
   "license": "MIT",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "./out/main.js",
   "type": "module",
   "scripts": {
+    "build": "pnpm tsc -p .",
     "start": "node -r dotenv/config .",
     "reg": "node -r dotenv/config . --register-commands",
-    "fmt": "pnpm prettier --cache -w **/*.{js,json,yml,yaml}",
-    "fmt.check": "pnpm prettier --cache -c **/*.{js,json,yml,yaml}"
+    "dev": "pnpm build && pnpm start",
+    "fmt": "pnpm prettier --cache -w **/*.{js,json,yml,yaml} !pnpm-lock.yaml",
+    "fmt.check": "pnpm prettier --cache -c **/*.{js,json,yml,yaml} !pnpm-lock.yaml"
   },
   "dependencies": {
     "chalk": "^2.4.2",
@@ -18,6 +20,8 @@
     "globby": "^14.0.0"
   },
   "devDependencies": {
-    "prettier": "^3.2.1"
+    "@types/node": "^20.11.2",
+    "prettier": "^3.2.1",
+    "typescript": "^5.3.3"
   }
 }
