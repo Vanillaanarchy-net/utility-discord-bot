@@ -1,7 +1,6 @@
 import "./src/utils/__dirname.js";
 
 import { Client } from "discord.js";
-import { GroupManager } from "./src/utils/groupManager.js";
 import { loadCommands } from "./src/utils/loadCommands.js";
 import { registerCommands } from "./src/utils/registerCommands.js";
 import { createInterface } from 'readline';
@@ -30,8 +29,6 @@ import { createInterface } from 'readline';
     const client = new Client({
         intents: ['Guilds']
     });
-
-    const groups = new GroupManager(client);
 
     const cli = createInterface(process.stdin, process.stdout);
 
