@@ -1,9 +1,13 @@
 import "./src/utils/__dirname.js";
-
 import { Client } from "discord.js";
 import { loadCommands } from "./src/utils/loadCommands.js";
 import { registerCommands } from "./src/utils/registerCommands.js";
 import { createInterface } from 'readline';
+import chalk from 'chalk';
+
+const log = (message, color = 'white') => {
+    console.log(chalk[color](message));
+};
 
 !async function () {
     if (process.argv.includes('--register-commands')) {
@@ -13,14 +17,19 @@ import { createInterface } from 'readline';
 
         try {
             await client.login(process.env.TOKEN);
-        
+            log('Bot successfully logged in.', 'green');
+
             const guild = await client.guilds.fetch(process.env.GUILD_ID);
-        
+            log(`Fetched guild: ${guild.name}`, 'cyan');
+
             await registerCommands(guild);
+            log('Commands registered successfully.', 'yellow');
         } catch (e) {
-            return console.error(e);
+            console.error(chalk.red('Error:', e));
+            return;
         }
 
+        log('Destroying client...', 'magenta');
         return client.destroy();
     }
 
@@ -33,13 +42,14 @@ import { createInterface } from 'readline';
     const cli = createInterface(process.stdin, process.stdout);
 
     cli.once('SIGINT', async () => {
+        log('Destroying client...', 'magenta');
         await client.destroy();
 
         cli.close();
     });
 
     client.once('ready', () => {
-        console.log('Bot started!');
+        log('Bot started!', 'green');
     });
 
     client.on('interactionCreate', async (interaction) => {
@@ -60,5 +70,6 @@ import { createInterface } from 'readline';
         }
     });
 
+    log('Logging in...', 'cyan');
     await client.login(process.env.TOKEN);
 } ();
