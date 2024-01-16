@@ -28,7 +28,7 @@ async function* loadIterator(source: string = __root, parent: string[] = []) {
             yield* await loadIterator(path, parent.concat(entry));
         } else if (entry.endsWith('.js')) {
             const name = entry.slice(0, entry.lastIndexOf('.js'));
-            const exec = (await import(path)) as { default: Executor };
+            const exec = (await import(process.platform === "win32" ? `file://${path}` : path)) as { default: Executor };
 
             switch (parent.length) {
                 case 0: yield <Command> { ...exec.default, name }; break;
